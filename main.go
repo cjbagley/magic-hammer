@@ -28,6 +28,6 @@ func run(args []string) error {
 
 func main() {
 	if err := run(os.Args[1:]); err != nil {
-		helpers.Exit(err.Error())
+		helpers.Exit("Error: " + err.Error())
 	}
 }
