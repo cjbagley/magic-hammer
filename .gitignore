@@ -22,3 +22,8 @@ go.work
 
 # Compiled program
 magic-hammer
+
+# Any testing files
+*.mp4
+*.webm
+ffmpeg*.log
