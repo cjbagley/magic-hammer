@@ -3,6 +3,7 @@ package cmd
 import (
 	"errors"
 	"flag"
+	"fmt"
 	"log"
 	"os"
 	"os/exec"
@@ -33,6 +34,10 @@ func (cmd *VideoCommand) Run() error {
 	if err := cmd.ValidateFlags(); err != nil {
 		return err
 	}
+
+	fmt.Println(cmd.FirstPassArguments())
+	fmt.Println(cmd.SecondPassArguments())
+	os.Exit(1)
 
 	// First Pass
 	log.Println("Executing pass one....")

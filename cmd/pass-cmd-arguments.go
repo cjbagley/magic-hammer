@@ -1,9 +1,12 @@
 package cmd
 
-import "strconv"
+import (
+	"fmt"
+	"strconv"
+)
 
 func (cmd *VideoCommand) FirstPassArguments() []string {
-	return []string{
+	var args = []string{
 		"-i",
 		cmd.inputFilename,
 		"-c:v",
@@ -12,23 +15,28 @@ func (cmd *VideoCommand) FirstPassArguments() []string {
 		"0",
 		"-crf",
 		strconv.Itoa(cmd.crfValue),
-		// "-ss",
-		// "00:00:14",
-		//"-t",
-		//"00:00:00",
 		"-map_metadata",
 		"-1",
 		"-pass",
 		"1",
 		"-an",
-		"-f",
-		"null",
-		"/dev/null",
 	}
+
+	if toBeSet, time := cmd.GetStartTime(); toBeSet != false {
+		args = append(args, "-ss", time)
+	}
+	if toBeSet, time := cmd.GetFinishTime(); toBeSet != false {
+		args = append(args, "-t", time)
+	}
+
+	// First pass needs to be set to null, not the output file
+	args = append(args, "-f", "null", "/dev/null")
+
+	return args
 }
 
 func (cmd *VideoCommand) SecondPassArguments() []string {
-	return []string{
+	var args = []string{
 		"-i",
 		cmd.inputFilename,
 		"-c:v",
@@ -37,16 +45,43 @@ func (cmd *VideoCommand) SecondPassArguments() []string {
 		"0",
 		"-crf",
 		strconv.Itoa(cmd.crfValue),
-		// "-ss",
-		// "00:00:14",
-		//"-t",
-		//"00:00:00",
 		"-map_metadata",
 		"-1",
 		"-pass",
 		"2",
 		"-c:a",
 		"libvorbis",
-		cmd.outputName + ".webm",
 	}
+
+	if toBeSet, time := cmd.GetStartTime(); toBeSet != false {
+		args = append(args, "-ss", time)
+	}
+	if toBeSet, time := cmd.GetFinishTime(); toBeSet != false {
+		args = append(args, "-t", time)
+	}
+
+	// End with the output file
+	args = append(args, cmd.outputName+".webm")
+
+	return args
+}
+
+func (cmd *VideoCommand) GetStartTime() (toBeSet bool, time string) {
+	if cmd.fromSeconds == 0 && cmd.fromMinutes == 0 {
+		return false, ""
+	}
+
+	return true, cmd.FormatTimeArgsToString(cmd.fromMinutes, cmd.fromSeconds)
+}
+
+func (cmd *VideoCommand) GetFinishTime() (toBeSet bool, time string) {
+	if cmd.toSeconds == 0 && cmd.toMinutes == 0 {
+		return false, ""
+	}
+
+	return true, cmd.FormatTimeArgsToString(cmd.toMinutes, cmd.toSeconds)
+}
+
+func (cmd *VideoCommand) FormatTimeArgsToString(minutes int, seconds int) string {
+	return fmt.Sprintf("00:%02d:%02d", minutes, seconds)
 }
