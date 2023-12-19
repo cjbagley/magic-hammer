@@ -8,6 +8,8 @@ import (
 	"os"
 	"os/exec"
 	"strings"
+
+	h "github.com/cjbagley/magic-hammer/helpers"
 )
 
 type VideoCommand struct {
@@ -84,31 +86,32 @@ func NewVideoCommand() Command {
 
 func (cmd *VideoCommand) ValidateFlags() error {
 	var err []string
-	if cmd.crfValue < 0 || cmd.crfValue > 63 {
+
+	if !h.IsValidCrf(cmd.crfValue) {
 		err = append(err, "crf value must be between 0 and 63")
 	}
 
-	if cmd.inputFilename == "" {
+	if !h.IsValidString(cmd.inputFilename) {
 		err = append(err, "the input filename must not be blank")
 	}
 
-	if cmd.outputName == "" {
+	if !h.IsValidString(cmd.outputName) {
 		err = append(err, "the output name must not be blank")
 	}
 
-	if cmd.fromSeconds < 0 || cmd.fromSeconds > 59 {
+	if !h.IsValidTimeUnit(cmd.fromSeconds) {
 		err = append(err, "from seconds must be between 0 and 59")
 	}
 
-	if cmd.fromMinutes < 0 || cmd.fromMinutes > 59 {
+	if !h.IsValidTimeUnit(cmd.fromMinutes) {
 		err = append(err, "from minutes must be between 0 and 59")
 	}
 
-	if cmd.toSeconds < 0 || cmd.toSeconds > 59 {
+	if !h.IsValidTimeUnit(cmd.toSeconds) {
 		err = append(err, "to seconds must be between 0 and 59")
 	}
 
-	if cmd.toMinutes < 0 || cmd.toMinutes > 59 {
+	if !h.IsValidTimeUnit(cmd.toMinutes) {
 		err = append(err, "to minutes must be between 0 and 59")
 	}
 
