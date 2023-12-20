@@ -3,7 +3,6 @@ package cmd
 import (
 	"errors"
 	"flag"
-	"fmt"
 	"log"
 	"os"
 	"os/exec"
