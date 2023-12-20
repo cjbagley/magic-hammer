@@ -37,10 +37,6 @@ func (cmd *VideoCommand) Run() error {
 		return err
 	}
 
-	fmt.Println(cmd.FirstPassArguments())
-	fmt.Println(cmd.SecondPassArguments())
-	os.Exit(1)
-
 	// First Pass
 	log.Println("Executing pass one....")
 	passOne := exec.Command("ffmpeg", cmd.FirstPassArguments()...)
