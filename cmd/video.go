@@ -64,7 +64,7 @@ func (cmd *VideoCommand) Run() error {
 	return nil
 }
 
-func NewVideoCommand() Command {
+func NewVideoCommand() *VideoCommand {
 	cmd := &VideoCommand{
 		fs: flag.NewFlagSet("video", flag.ContinueOnError),
 	}
