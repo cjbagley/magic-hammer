@@ -23,7 +23,7 @@ func (cmd *ImageCommand) Run() error {
 	return nil
 }
 
-func NewImageCommand() Command {
+func NewImageCommand() *ImageCommand {
 	cmd := &ImageCommand{
 		fs: flag.NewFlagSet("image", flag.ContinueOnError),
 	}

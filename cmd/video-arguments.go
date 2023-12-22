@@ -15,11 +15,6 @@ func (cmd *VideoCommand) FirstPassArguments() []string {
 		"0",
 		"-crf",
 		strconv.Itoa(cmd.crfValue),
-		"-map_metadata",
-		"-1",
-		"-pass",
-		"1",
-		"-an",
 	}
 
 	if toBeSet, time := cmd.GetStartTime(); toBeSet != false {
@@ -29,8 +24,17 @@ func (cmd *VideoCommand) FirstPassArguments() []string {
 		args = append(args, "-t", time)
 	}
 
-	// First pass needs to be set to null, not the output file
-	args = append(args, "-f", "null", "/dev/null")
+	args = append(args,
+		"-map_metadata",
+		"-1",
+		"-pass",
+		"1",
+		"-an",
+		"-f",
+		"null",
+		// First pass needs to be set to null, not the output file
+		"/dev/null",
+	)
 
 	return args
 }
@@ -45,12 +49,6 @@ func (cmd *VideoCommand) SecondPassArguments() []string {
 		"0",
 		"-crf",
 		strconv.Itoa(cmd.crfValue),
-		"-map_metadata",
-		"-1",
-		"-pass",
-		"2",
-		"-c:a",
-		"libvorbis",
 	}
 
 	if toBeSet, time := cmd.GetStartTime(); toBeSet != false {
@@ -61,7 +59,15 @@ func (cmd *VideoCommand) SecondPassArguments() []string {
 	}
 
 	// End with the output file
-	args = append(args, cmd.outputName+".webm")
+	args = append(args,
+		"-map_metadata",
+		"-1",
+		"-pass",
+		"2",
+		"-c:a",
+		"libvorbis",
+		cmd.outputName+".webm",
+	)
 
 	return args
 }
