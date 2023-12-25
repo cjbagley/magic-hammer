@@ -1,8 +1,12 @@
 package cmd
 
 import (
+	"bytes"
 	"errors"
 	"flag"
+	"fmt"
+	"log"
+	"os/exec"
 	"strings"
 
 	h "github.com/cjbagley/magic-hammer/helpers"
@@ -25,6 +29,20 @@ func (cmd *ImageCommand) Init(args []string) error {
 }
 
 func (cmd *ImageCommand) Run() error {
+	if err := cmd.ValidateFlags(); err != nil {
+		return err
+	}
+
+	log.Println("Starting image mogrification - stand by....")
+	mogrify := exec.Command("mogrify", cmd.Argurments()...)
+	var out bytes.Buffer
+	var stderr bytes.Buffer
+	mogrify.Stdout = &out
+	mogrify.Stderr = &stderr
+	if err := mogrify.Run(); err != nil {
+		return fmt.Errorf("%v:%v", err, stderr.String())
+	}
+	log.Println("Image converted")
 	return nil
 }
 

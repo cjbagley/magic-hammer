@@ -5,7 +5,7 @@ import "strconv"
 func (cmd *ImageCommand) Argurments() []string {
 	var args = []string{
 		"-path",
-		"~/.",
+		".",
 		"-filter",
 		"Triangle",
 		"-define",
@@ -33,7 +33,10 @@ func (cmd *ImageCommand) Argurments() []string {
 		args = append(args, "-thumbnail", percentage)
 	}
 
-	args = append(args, cmd.outputName+".webp")
+	args = append(args, "-write", cmd.outputName+".webp")
+
+	// Final arguments - the file to process
+	args = append(args, cmd.inputFilename)
 
 	return args
 }
