@@ -10,9 +10,10 @@ import (
 
 type ImageCommand struct {
 	fs               *flag.FlagSet
-	thumbnailPercent int
-	quality          int
+	inputFilename    string
 	outputName       string
+	quality          int
+	thumbnailPercent int
 }
 
 func (cmd *ImageCommand) SubCommand() string {
@@ -34,6 +35,7 @@ func NewImageCommand() *ImageCommand {
 	cmd.fs.IntVar(&cmd.thumbnailPercent, "tp", 70, "The thumbnail percentage value to use. If 0, will not set thumbnail.")
 	cmd.fs.IntVar(&cmd.quality, "q", 82, "The image quality value to use.")
 	cmd.fs.StringVar(&cmd.outputName, "o", "output", "The output filename to use, excluding the file extension (webp).")
+	cmd.fs.StringVar(&cmd.inputFilename, "f", "input.jpg", "The input file to process.")
 
 	return cmd
 }
@@ -47,6 +49,10 @@ func (cmd *ImageCommand) ValidateFlags() error {
 
 	if !h.IsValidPercent(cmd.quality) {
 		err = append(err, "quality must be between 0 and 100")
+	}
+
+	if !h.IsValidString(cmd.inputFilename) {
+		err = append(err, "the input filename must not be blank")
 	}
 
 	if !h.IsValidString(cmd.outputName) {
