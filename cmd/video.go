@@ -54,7 +54,7 @@ func (cmd *VideoCommand) Run() error {
 	log.Println("Finished pass two....")
 
 	// Clean up for 2 pass log
-	delLog := exec.Command("rm", "ffmpeg*.log")
+	delLog := exec.Command("rm", "ffmpeg2pass-0.log")
 	if err := delLog.Run(); err != nil {
 		return err
 	}
