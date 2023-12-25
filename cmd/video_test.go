@@ -34,34 +34,34 @@ func TestVideoValidateFlags(t *testing.T) {
 	cmd1.Init([]string{"-fs", "61"})
 	err = cmd1.ValidateFlags()
 	if err == nil {
-		t.Errorf("VideoCommand.validateFlags allowed 61 seconds and did not error")
+		t.Errorf("VideoCommand.validateFlags allowed 61 seconds.")
 	}
 
 	cmd2 := NewVideoCommand()
 	cmd2.Init([]string{"-o", ""})
 	err = cmd2.ValidateFlags()
 	if err == nil {
-		t.Errorf("VideoCommand.validateFlags allowed empty output and did not error")
+		t.Errorf("VideoCommand.validateFlags allowed empty output.")
 	}
 
 	cmd3 := NewVideoCommand()
 	cmd3.Init([]string{"-crf", "2000"})
 	err = cmd3.ValidateFlags()
 	if err == nil {
-		t.Errorf("VideoCommand.validateFlags allowed incorrect crf and did not error")
+		t.Errorf("VideoCommand.validateFlags allowed incorrect crf.")
 	}
 
 	cmd4 := NewVideoCommand()
 	cmd4.Init([]string{})
 	err = cmd4.ValidateFlags()
 	if err != nil {
-		t.Errorf("VideoCommand.validateFlags returned error when no arguments present")
+		t.Errorf("VideoCommand.validateFlags returned error when no arguments present.")
 	}
 
 	cmd5 := NewVideoCommand()
-	cmd5.Init([]string{"-o", "new-output name", "ts", "40", "tm", "1"})
+	cmd5.Init([]string{"-o", "new-output-name", "ts", "40", "tm", "1"})
 	err = cmd5.ValidateFlags()
 	if err != nil {
-		t.Errorf("VideoCommand.validateFlags returned error when valid arguments present")
+		t.Errorf("VideoCommand.validateFlags returned error when valid arguments present.")
 	}
 }

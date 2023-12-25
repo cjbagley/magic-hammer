@@ -8,6 +8,10 @@ func IsValidTimeUnit(unit int) bool {
 	return unit >= 0 && unit <= 59
 }
 
+func IsValidPercent(unit int) bool {
+	return unit >= 0 && unit <= 100
+}
+
 func IsValidString(str string) bool {
 	return str != ""
 }

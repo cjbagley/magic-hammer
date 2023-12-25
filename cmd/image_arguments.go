@@ -25,12 +25,15 @@ func (cmd *ImageCommand) Argurments() []string {
 		"webp",
 		"-define",
 		"webp:method=6",
-		"-thumbnail",
-		"70%",
 		"-quality",
-		"82",
-		"how-to-be-productive.png",
+		strconv.Itoa(cmd.quality),
 	}
+
+	if toBeSet, percentage := cmd.GetThumbnailPercent(); toBeSet == true {
+		args = append(args, "-thumbnail", percentage)
+	}
+
+	args = append(args, cmd.outputName+".webp")
 
 	return args
 }
