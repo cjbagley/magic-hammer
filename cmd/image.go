@@ -2,12 +2,12 @@ package cmd
 
 import (
 	"flag"
-	"fmt"
 )
 
 type ImageCommand struct {
-	fs   *flag.FlagSet
-	name string
+	fs               *flag.FlagSet
+	thumbnailPercent int
+	quality          int
 }
 
 func (cmd *ImageCommand) SubCommand() string {
@@ -19,7 +19,6 @@ func (cmd *ImageCommand) Init(args []string) error {
 }
 
 func (cmd *ImageCommand) Run() error {
-	fmt.Printf(cmd.name)
 	return nil
 }
 
@@ -27,7 +26,8 @@ func NewImageCommand() *ImageCommand {
 	cmd := &ImageCommand{
 		fs: flag.NewFlagSet("image", flag.ContinueOnError),
 	}
-	cmd.fs.StringVar(&cmd.name, "name", "Colin", "name")
+	cmd.fs.IntVar(&cmd.thumbnailPercent, "tp", 70, "The thumbnail percentage value to use. If 0, will not set thumbnail.")
+	cmd.fs.IntVar(&cmd.quality, "q", 82, "The image quality value to use.")
 
 	return cmd
 }
