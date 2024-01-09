@@ -13,10 +13,10 @@ func TestImageValidateFlags(t *testing.T) {
 	}
 
 	cmd2 := NewImageCommand()
-	cmd2.Init([]string{"-o", ""})
+	cmd2.Init([]string{"-f", ""})
 	err = cmd2.ValidateFlags()
 	if err == nil {
-		t.Errorf("ImageCommand.validateFlags allowed empty output.")
+		t.Errorf("ImageCommand.validateFlags allowed empty input filename.")
 	}
 
 	cmd3 := NewImageCommand()
@@ -34,7 +34,7 @@ func TestImageValidateFlags(t *testing.T) {
 	}
 
 	cmd5 := NewImageCommand()
-	cmd5.Init([]string{"-o", "new-output-name", "-tp", "40", "-q", "1"})
+	cmd5.Init([]string{"-tp", "40", "-q", "1"})
 	err = cmd5.ValidateFlags()
 	if err != nil {
 		t.Errorf("ImageCommand.validateFlags returned error when valid arguments present.")

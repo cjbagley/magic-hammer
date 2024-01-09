@@ -15,7 +15,7 @@ import (
 type ImageCommand struct {
 	fs               *flag.FlagSet
 	inputFilename    string
-	outputName       string
+	outputFilename   string
 	quality          int
 	thumbnailPercent int
 }
@@ -25,7 +25,20 @@ func (cmd *ImageCommand) SubCommand() string {
 }
 
 func (cmd *ImageCommand) Init(args []string) error {
-	return cmd.fs.Parse(args)
+	if err := cmd.fs.Parse(args); err != nil {
+		return err
+	}
+
+	cmd.outputFilename = "output.webp"
+	n := strings.LastIndexByte(cmd.inputFilename, '.')
+	if n != -1 && cmd.inputFilename[:n] != "" {
+		cmd.outputFilename = cmd.inputFilename[:n] + ".webp"
+	}
+	if cmd.inputFilename == cmd.outputFilename {
+		cmd.outputFilename = "converted-" + cmd.outputFilename
+	}
+
+	return nil
 }
 
 func (cmd *ImageCommand) Run() error {
@@ -52,7 +65,6 @@ func NewImageCommand() *ImageCommand {
 	}
 	cmd.fs.IntVar(&cmd.thumbnailPercent, "tp", 70, "The thumbnail percentage value to use. If 0, will not set thumbnail.")
 	cmd.fs.IntVar(&cmd.quality, "q", 82, "The image quality value to use.")
-	cmd.fs.StringVar(&cmd.outputName, "o", "output", "The output filename to use, excluding the file extension (webp).")
 	cmd.fs.StringVar(&cmd.inputFilename, "f", "input.jpg", "The input file to process.")
 
 	return cmd
@@ -71,10 +83,6 @@ func (cmd *ImageCommand) ValidateFlags() error {
 
 	if !h.IsValidString(cmd.inputFilename) {
 		err = append(err, "the input filename must not be blank")
-	}
-
-	if !h.IsValidString(cmd.outputName) {
-		err = append(err, "the output name must not be blank")
 	}
 
 	if len(err) > 0 {

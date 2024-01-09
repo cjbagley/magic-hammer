@@ -32,7 +32,7 @@ func (cmd *ImageCommand) Argurments() []string {
 	}
 
 	// Final arguments - the file to process and output filename
-	args = append(args, cmd.inputFilename, cmd.outputName+".webp")
+	args = append(args, cmd.inputFilename, cmd.outputFilename)
 
 	return args
 }
