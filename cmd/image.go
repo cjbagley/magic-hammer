@@ -33,13 +33,13 @@ func (cmd *ImageCommand) Run() error {
 		return err
 	}
 
-	log.Println("Starting image mogrification - stand by....")
-	mogrify := exec.Command("mogrify", cmd.Argurments()...)
+	log.Println("Starting image conversion - stand by....")
+	convert := exec.Command("convert", cmd.Argurments()...)
 	var out bytes.Buffer
 	var stderr bytes.Buffer
-	mogrify.Stdout = &out
-	mogrify.Stderr = &stderr
-	if err := mogrify.Run(); err != nil {
+	convert.Stdout = &out
+	convert.Stderr = &stderr
+	if err := convert.Run(); err != nil {
 		return fmt.Errorf("%v:%v", err, stderr.String())
 	}
 	log.Println("Image converted")
