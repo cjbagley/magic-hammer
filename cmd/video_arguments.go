@@ -66,7 +66,7 @@ func (cmd *VideoCommand) SecondPassArguments() []string {
 		"2",
 		"-c:a",
 		"libvorbis",
-		cmd.outputName+".webm",
+		cmd.outputFilename,
 	)
 
 	return args

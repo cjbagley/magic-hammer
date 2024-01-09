@@ -8,7 +8,7 @@ import (
 // Not sure how useful this test is, but this is more for practice
 func TestNewVideoCommandArgs(t *testing.T) {
 	cmd := NewVideoCommand()
-	cmd.Init([]string{"-fs", "20", "-o", "processed-file"})
+	cmd.Init([]string{"-fs", "20"})
 
 	if cmd.fromSeconds != 20 {
 		t.Errorf("VideoCommand.fromSeconds = %v, expected %v", cmd.fromSeconds, 0)
@@ -20,10 +20,6 @@ func TestNewVideoCommandArgs(t *testing.T) {
 
 	if cmd.toSeconds != 0 {
 		t.Errorf("VideoCommand.toSeconds = %v, expected %v", cmd.fromSeconds, 0)
-	}
-
-	if cmd.outputName != "processed-file" {
-		t.Errorf("VideoCommand.output = %v, expected %v", cmd.outputName, "processed-file")
 	}
 }
 
@@ -38,10 +34,10 @@ func TestVideoValidateFlags(t *testing.T) {
 	}
 
 	cmd2 := NewVideoCommand()
-	cmd2.Init([]string{"-o", ""})
+	cmd2.Init([]string{"-f", ""})
 	err = cmd2.ValidateFlags()
 	if err == nil {
-		t.Errorf("VideoCommand.validateFlags allowed empty output.")
+		t.Errorf("VideoCommand.validateFlags allowed empty input filename.")
 	}
 
 	cmd3 := NewVideoCommand()
@@ -59,7 +55,7 @@ func TestVideoValidateFlags(t *testing.T) {
 	}
 
 	cmd5 := NewVideoCommand()
-	cmd5.Init([]string{"-o", "new-output-name", "ts", "40", "tm", "1"})
+	cmd5.Init([]string{"ts", "40", "tm", "1"})
 	err = cmd5.ValidateFlags()
 	if err != nil {
 		t.Errorf("VideoCommand.validateFlags returned error when valid arguments present.")

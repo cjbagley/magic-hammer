@@ -29,7 +29,6 @@ magic-hammer video -f [filename-to-convert]
 | -f     | The input file to process. Default: 'input.mp4'.                                                                                 |
 | -fm    | The number of minutes to start the video from. Use in conjunction with 'fs' to cut any content before the given minutes/seconds. |
 | -fs    | The number of seconds to start the video from. Use in conjunction with 'fm' to cut any content before the given minutes/seconds. |
-| -o     | The output filename to use, excluding the file extension (webm). Default: "output".                                              |
 | -tm    | The number of minutes to end the video an. Use in conjunction with 'ts' to cut any content after the given minutes/seconds.      |
 | -ts    | The number of seconds to end the video at. Use in conjunction with 'tm' to cut any content after the given minutes/seconds.      |
 
